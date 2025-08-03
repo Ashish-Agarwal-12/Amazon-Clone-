@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { showError, showSuccess } from "@/lib/toast"; // Importing the toast utility
 
 // Zod validation schema
 const signupSchema = z.object({
@@ -38,8 +39,10 @@ export default function SignupPage() {
     if (!res.ok) {
       const result = await res.json();
       setError(result.error || "Signup failed");
+      showError(result.error || "Signup failed");
     } else {
       router.push("/login");
+      showSuccess("Signup successful! Please log in.");
     }
   };
 

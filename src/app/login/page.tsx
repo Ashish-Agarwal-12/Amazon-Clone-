@@ -5,6 +5,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { showError, showSuccess} from "@/lib/toast"; // Importing the toast utility
+
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -36,8 +38,10 @@ export default function LoginPage() {
     if (!res.ok) {
       const result = await res.json();
       setError(result.error || "Login failed");
+      showError(result.error || "Login failed");
     } else {
       router.push("/"); // or redirect to /dashboard or /checkout
+      showSuccess("Login successful!");
     }
   };
 
